@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-
+//connect mongodb
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.omxy1x5.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 console.log(uri);
@@ -16,12 +16,11 @@ console.log(uri);
 async function run() {
   try {
     await client.connect();
-    //Data Base File Collection
+    //MongoDB data File Collection
     const UserInfoCollection = client.db('BlackcofferData').collection('userinfo');
-    // const dataCollection = client.db('jsonData').collection('data');
 
-    //user collect api
-    app.get('/data', async (req, res) => {
+    //allInfo collect api
+    app.get('/allInfo', async (req, res) => {
       const data = await UserInfoCollection.find().toArray();
       res.send(data);
     });
